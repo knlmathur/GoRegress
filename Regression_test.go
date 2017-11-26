@@ -1,11 +1,12 @@
-package Regression
+package main
 
 import (
 	"fmt"
 	"math/rand"
+	"github.com/knlmathur/GoRegress"
 )
 
-//NumberGenerator creates an examle using in built random number library
+//NumberGenerator creates an example using the in built random number library
 func NumberGenerator(iter int) (x []float64, y []float64) {
 
 	// Generate a 6×6 matrix of random values
@@ -36,8 +37,11 @@ func main() {
 	// Number of Iterations
 	const iter = 10000
 
+	// Generate Random Numbers
+	x, y := NumberGenerator(iter)
+
 	// Run Regression with a Go Routine
-	go LinearRegression(iter, coef, intercept, rsq, tval)
+	go Regression.LinearRegression(x, y, coef, intercept, rsq, tval)
 
 	// Fill the channels with Result
 	alpha := <-coef

@@ -10,10 +10,7 @@ func TValue(beta float64, x []float64) float64 {
 
 //LinearRegression performs the actual Regression
 //Outputs the results into the respective channels
-func LinearRegression(iter int, coef chan float64, intercept chan float64, rsq chan float64, tval chan float64) {
-
-	// Generate Random Numbers
-	x, y := NumberGenerator(iter)
+func LinearRegression(x []float64, y []float64, coef chan float64, intercept chan float64, rsq chan float64, tval chan float64) {
 
 	//Regress
 	alpha, beta := stat.LinearRegression(x, y, nil, false)
@@ -29,5 +26,4 @@ func LinearRegression(iter int, coef chan float64, intercept chan float64, rsq c
 	intercept <- beta
 	rsq <- rsquared
 	tval <- tvalue
-
 }
