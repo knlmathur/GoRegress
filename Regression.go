@@ -6,6 +6,7 @@ import (
 	"math/rand"
 )
 
+//Example using in built random number library
 func NumberGenerator(iter int) (x []float64, y []float64) {
 
 	// Generate a 6×6 matrix of random values
@@ -19,6 +20,7 @@ func NumberGenerator(iter int) (x []float64, y []float64) {
 	return x, y
 }
 
+// Function to Calc the T-Stat of the intercept
 func TValue(beta float64, x []float64) float64 {
 	tval := beta / stat.StdErr(stat.StdDev(x, nil), float64(len(x)))
 	return tval
