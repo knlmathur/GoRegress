@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+
 	"github.com/knlmathur/GoRegress"
 )
 
@@ -23,16 +24,10 @@ func NumberGenerator(iter int) (x []float64, y []float64) {
 func main() {
 
 	//Create Channels
-	coef := make(chan float64)
-	intercept := make(chan float64)
-	rsq := make(chan float64)
-	tval := make(chan float64)
+	result := make(chan []float64)
 
 	// Close Channels after finish
-	defer close(coef)
-	defer close(intercept)
-	defer close(rsq)
-	defer close(tval)
+	defer close(result)
 
 	// Number of Iterations
 	const iter = 10000
@@ -41,16 +36,14 @@ func main() {
 	x, y := NumberGenerator(iter)
 
 	// Run Regression with a Go Routine
-	go Regression.LinearRegression(x, y, coef, intercept, rsq, tval)
+	go Regression.LinearRegression(x, y, result)
 
 	// Fill the channels with Result
-	alpha := <-coef
-	beta := <-intercept
-	rsquared := <-rsq
-	tvalue := <-tval
+	res := <-result
 
-	fmt.Printf("The Intercept is :%.4f\n", alpha)
-	fmt.Printf("The Regression Coefficient is :%.4f\n", beta)
-	fmt.Printf("The T-Value is :%.4f\n", tvalue)
-	fmt.Printf("The R-Square is :%.4f\n", rsquared)
+	//Print Results
+	fmt.Printf("The Intercept is :%.4f\n", res[0])
+	fmt.Printf("The Regression Coefficient is :%.4f\n", res[1])
+	fmt.Printf("The T-Value is :%.4f\n", res[2])
+	fmt.Printf("The R-Square is :%.4f\n", res[3])
 }
